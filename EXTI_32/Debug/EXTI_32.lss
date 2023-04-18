@@ -1,0 +1,807 @@
+
+EXTI_32.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000498  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000004  00800060  00800060  0000050c  2**0
+                  ALLOC
+  2 .stab         00000744  00000000  00000000  0000050c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      00000485  00000000  00000000  00000c50  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 df 01 	jmp	0x3be	; 0x3be <__vector_1>
+   8:	0c 94 12 02 	jmp	0x424	; 0x424 <__vector_2>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a4 36       	cpi	r26, 0x64	; 100
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 45 02 	call	0x48a	; 0x48a <main>
+  74:	0c 94 4a 02 	jmp	0x494	; 0x494 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <EXTI_voidInt0Init>:
+void(*EXTI_pvInt1Func)(void)=NULL;
+
+
+
+void EXTI_voidInt0Init(void)
+{
+  7c:	df 93       	push	r29
+  7e:	cf 93       	push	r28
+  80:	cd b7       	in	r28, 0x3d	; 61
+  82:	de b7       	in	r29, 0x3e	; 62
+	/*set sense control for INT0 to falling edge */
+	CLR_BIT(MCUCR,MCUCR_ISC00);
+	SET_BIT(MCUCR,MCUCR_ISC01);
+#elif INT0_SENSE == RISING_EDGE
+	/*set sense control for INT0 to falling edge */
+	SET_BIT(MCUCR,MCUCR_ISC00);
+  84:	a5 e5       	ldi	r26, 0x55	; 85
+  86:	b0 e0       	ldi	r27, 0x00	; 0
+  88:	e5 e5       	ldi	r30, 0x55	; 85
+  8a:	f0 e0       	ldi	r31, 0x00	; 0
+  8c:	80 81       	ld	r24, Z
+  8e:	81 60       	ori	r24, 0x01	; 1
+  90:	8c 93       	st	X, r24
+	SET_BIT(MCUCR,MCUCR_ISC01);
+  92:	a5 e5       	ldi	r26, 0x55	; 85
+  94:	b0 e0       	ldi	r27, 0x00	; 0
+  96:	e5 e5       	ldi	r30, 0x55	; 85
+  98:	f0 e0       	ldi	r31, 0x00	; 0
+  9a:	80 81       	ld	r24, Z
+  9c:	82 60       	ori	r24, 0x02	; 2
+  9e:	8c 93       	st	X, r24
+#error "wrong INT0_SENSE configuration option"
+#endif
+	/*2- Check if peripheral interrupt enable initial state*/
+#if INT0_INITIAL_STATE == ENABLED
+	/*Peripheral interrupt enable for INT0*/
+	SET_BIT(GICR,GICR_INT0);
+  a0:	ab e5       	ldi	r26, 0x5B	; 91
+  a2:	b0 e0       	ldi	r27, 0x00	; 0
+  a4:	eb e5       	ldi	r30, 0x5B	; 91
+  a6:	f0 e0       	ldi	r31, 0x00	; 0
+  a8:	80 81       	ld	r24, Z
+  aa:	80 64       	ori	r24, 0x40	; 64
+  ac:	8c 93       	st	X, r24
+#elif INT0_INITIAL_STATE == DISABLED
+	CLR_BIT(GICR,GICR_INT0);
+#else
+#error "Wrong INT0_INITIAL_STATE configuration option"
+#endif
+}
+  ae:	cf 91       	pop	r28
+  b0:	df 91       	pop	r29
+  b2:	08 95       	ret
+
+000000b4 <EXTI_voidInt1Init>:
+
+
+void EXTI_voidInt1Init(void)
+{
+  b4:	df 93       	push	r29
+  b6:	cf 93       	push	r28
+  b8:	cd b7       	in	r28, 0x3d	; 61
+  ba:	de b7       	in	r29, 0x3e	; 62
+	/*set sense control for INT1 to falling edge */
+	CLR_BIT(MCUCR,MCUCR_ISC10);
+	SET_BIT(MCUCR,MCUCR_ISC11);
+#elif INT1_SENSE == RISING_EDGE
+	/*set sense control for INT1 to falling edge */
+	SET_BIT(MCUCR,MCUCR_ISC11);
+  bc:	a5 e5       	ldi	r26, 0x55	; 85
+  be:	b0 e0       	ldi	r27, 0x00	; 0
+  c0:	e5 e5       	ldi	r30, 0x55	; 85
+  c2:	f0 e0       	ldi	r31, 0x00	; 0
+  c4:	80 81       	ld	r24, Z
+  c6:	88 60       	ori	r24, 0x08	; 8
+  c8:	8c 93       	st	X, r24
+	SET_BIT(MCUCR,MCUCR_ISC10);
+  ca:	a5 e5       	ldi	r26, 0x55	; 85
+  cc:	b0 e0       	ldi	r27, 0x00	; 0
+  ce:	e5 e5       	ldi	r30, 0x55	; 85
+  d0:	f0 e0       	ldi	r31, 0x00	; 0
+  d2:	80 81       	ld	r24, Z
+  d4:	84 60       	ori	r24, 0x04	; 4
+  d6:	8c 93       	st	X, r24
+#error "wrong INT1_SENSE configuration option"
+#endif
+	/*2- Check if peripheral interrupt enable initial state*/
+#if INT1_INITIAL_STATE == ENABLED
+	/*Peripheral interrupt enable for INT0*/
+	SET_BIT(GICR,GICR_INT1);
+  d8:	ab e5       	ldi	r26, 0x5B	; 91
+  da:	b0 e0       	ldi	r27, 0x00	; 0
+  dc:	eb e5       	ldi	r30, 0x5B	; 91
+  de:	f0 e0       	ldi	r31, 0x00	; 0
+  e0:	80 81       	ld	r24, Z
+  e2:	80 68       	ori	r24, 0x80	; 128
+  e4:	8c 93       	st	X, r24
+#elif INT1_INITIAL_STATE == DISABLED
+	CLR_BIT(GICR,GICR_INT1);
+#else
+#error "Wrong INT1_INITIAL_STATE configuration option"
+#endif
+}
+  e6:	cf 91       	pop	r28
+  e8:	df 91       	pop	r29
+  ea:	08 95       	ret
+
+000000ec <EXTI_u8IntSetSenseControl>:
+
+u8 EXTI_u8IntSetSenseControl(u8 Copy_u8Sense,u8 Copy_u8Int)
+{
+  ec:	df 93       	push	r29
+  ee:	cf 93       	push	r28
+  f0:	cd b7       	in	r28, 0x3d	; 61
+  f2:	de b7       	in	r29, 0x3e	; 62
+  f4:	28 97       	sbiw	r28, 0x08	; 8
+  f6:	0f b6       	in	r0, 0x3f	; 63
+  f8:	f8 94       	cli
+  fa:	de bf       	out	0x3e, r29	; 62
+  fc:	0f be       	out	0x3f, r0	; 63
+  fe:	cd bf       	out	0x3d, r28	; 61
+ 100:	8a 83       	std	Y+2, r24	; 0x02
+ 102:	6b 83       	std	Y+3, r22	; 0x03
+	u8 Local_u8ErrorState =OK;
+ 104:	19 82       	std	Y+1, r1	; 0x01
+	if(Copy_u8Int==INT0)
+ 106:	8b 81       	ldd	r24, Y+3	; 0x03
+ 108:	81 30       	cpi	r24, 0x01	; 1
+ 10a:	09 f0       	breq	.+2      	; 0x10e <EXTI_u8IntSetSenseControl+0x22>
+ 10c:	61 c0       	rjmp	.+194    	; 0x1d0 <EXTI_u8IntSetSenseControl+0xe4>
+	{
+		switch(Copy_u8Sense)
+ 10e:	8a 81       	ldd	r24, Y+2	; 0x02
+ 110:	28 2f       	mov	r18, r24
+ 112:	30 e0       	ldi	r19, 0x00	; 0
+ 114:	38 87       	std	Y+8, r19	; 0x08
+ 116:	2f 83       	std	Y+7, r18	; 0x07
+ 118:	8f 81       	ldd	r24, Y+7	; 0x07
+ 11a:	98 85       	ldd	r25, Y+8	; 0x08
+ 11c:	82 30       	cpi	r24, 0x02	; 2
+ 11e:	91 05       	cpc	r25, r1
+ 120:	29 f1       	breq	.+74     	; 0x16c <EXTI_u8IntSetSenseControl+0x80>
+ 122:	2f 81       	ldd	r18, Y+7	; 0x07
+ 124:	38 85       	ldd	r19, Y+8	; 0x08
+ 126:	23 30       	cpi	r18, 0x03	; 3
+ 128:	31 05       	cpc	r19, r1
+ 12a:	34 f4       	brge	.+12     	; 0x138 <EXTI_u8IntSetSenseControl+0x4c>
+ 12c:	8f 81       	ldd	r24, Y+7	; 0x07
+ 12e:	98 85       	ldd	r25, Y+8	; 0x08
+ 130:	81 30       	cpi	r24, 0x01	; 1
+ 132:	91 05       	cpc	r25, r1
+ 134:	61 f0       	breq	.+24     	; 0x14e <EXTI_u8IntSetSenseControl+0x62>
+ 136:	47 c0       	rjmp	.+142    	; 0x1c6 <EXTI_u8IntSetSenseControl+0xda>
+ 138:	2f 81       	ldd	r18, Y+7	; 0x07
+ 13a:	38 85       	ldd	r19, Y+8	; 0x08
+ 13c:	23 30       	cpi	r18, 0x03	; 3
+ 13e:	31 05       	cpc	r19, r1
+ 140:	21 f1       	breq	.+72     	; 0x18a <EXTI_u8IntSetSenseControl+0x9e>
+ 142:	8f 81       	ldd	r24, Y+7	; 0x07
+ 144:	98 85       	ldd	r25, Y+8	; 0x08
+ 146:	84 30       	cpi	r24, 0x04	; 4
+ 148:	91 05       	cpc	r25, r1
+ 14a:	71 f1       	breq	.+92     	; 0x1a8 <EXTI_u8IntSetSenseControl+0xbc>
+ 14c:	3c c0       	rjmp	.+120    	; 0x1c6 <EXTI_u8IntSetSenseControl+0xda>
+		{
+		case Low_LEVEL:
+			CLR_BIT(MCUCR,MCUCR_ISC01);
+ 14e:	a5 e5       	ldi	r26, 0x55	; 85
+ 150:	b0 e0       	ldi	r27, 0x00	; 0
+ 152:	e5 e5       	ldi	r30, 0x55	; 85
+ 154:	f0 e0       	ldi	r31, 0x00	; 0
+ 156:	80 81       	ld	r24, Z
+ 158:	8d 7f       	andi	r24, 0xFD	; 253
+ 15a:	8c 93       	st	X, r24
+			CLR_BIT(MCUCR,MCUCR_ISC00);
+ 15c:	a5 e5       	ldi	r26, 0x55	; 85
+ 15e:	b0 e0       	ldi	r27, 0x00	; 0
+ 160:	e5 e5       	ldi	r30, 0x55	; 85
+ 162:	f0 e0       	ldi	r31, 0x00	; 0
+ 164:	80 81       	ld	r24, Z
+ 166:	8e 7f       	andi	r24, 0xFE	; 254
+ 168:	8c 93       	st	X, r24
+ 16a:	2f c0       	rjmp	.+94     	; 0x1ca <EXTI_u8IntSetSenseControl+0xde>
+			break;
+		case ON_CHANGE:
+			CLR_BIT(MCUCR,MCUCR_ISC01);
+ 16c:	a5 e5       	ldi	r26, 0x55	; 85
+ 16e:	b0 e0       	ldi	r27, 0x00	; 0
+ 170:	e5 e5       	ldi	r30, 0x55	; 85
+ 172:	f0 e0       	ldi	r31, 0x00	; 0
+ 174:	80 81       	ld	r24, Z
+ 176:	8d 7f       	andi	r24, 0xFD	; 253
+ 178:	8c 93       	st	X, r24
+			SET_BIT(MCUCR,MCUCR_ISC00);
+ 17a:	a5 e5       	ldi	r26, 0x55	; 85
+ 17c:	b0 e0       	ldi	r27, 0x00	; 0
+ 17e:	e5 e5       	ldi	r30, 0x55	; 85
+ 180:	f0 e0       	ldi	r31, 0x00	; 0
+ 182:	80 81       	ld	r24, Z
+ 184:	81 60       	ori	r24, 0x01	; 1
+ 186:	8c 93       	st	X, r24
+ 188:	20 c0       	rjmp	.+64     	; 0x1ca <EXTI_u8IntSetSenseControl+0xde>
+			break;
+		case FALLING_EDGE:
+			SET_BIT(MCUCR,MCUCR_ISC01);
+ 18a:	a5 e5       	ldi	r26, 0x55	; 85
+ 18c:	b0 e0       	ldi	r27, 0x00	; 0
+ 18e:	e5 e5       	ldi	r30, 0x55	; 85
+ 190:	f0 e0       	ldi	r31, 0x00	; 0
+ 192:	80 81       	ld	r24, Z
+ 194:	82 60       	ori	r24, 0x02	; 2
+ 196:	8c 93       	st	X, r24
+			CLR_BIT(MCUCR,MCUCR_ISC00);
+ 198:	a5 e5       	ldi	r26, 0x55	; 85
+ 19a:	b0 e0       	ldi	r27, 0x00	; 0
+ 19c:	e5 e5       	ldi	r30, 0x55	; 85
+ 19e:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a0:	80 81       	ld	r24, Z
+ 1a2:	8e 7f       	andi	r24, 0xFE	; 254
+ 1a4:	8c 93       	st	X, r24
+ 1a6:	11 c0       	rjmp	.+34     	; 0x1ca <EXTI_u8IntSetSenseControl+0xde>
+
+			break;
+		case RISING_EDGE:
+			SET_BIT(MCUCR,MCUCR_ISC01);
+ 1a8:	a5 e5       	ldi	r26, 0x55	; 85
+ 1aa:	b0 e0       	ldi	r27, 0x00	; 0
+ 1ac:	e5 e5       	ldi	r30, 0x55	; 85
+ 1ae:	f0 e0       	ldi	r31, 0x00	; 0
+ 1b0:	80 81       	ld	r24, Z
+ 1b2:	82 60       	ori	r24, 0x02	; 2
+ 1b4:	8c 93       	st	X, r24
+			SET_BIT(MCUCR,MCUCR_ISC00);
+ 1b6:	a5 e5       	ldi	r26, 0x55	; 85
+ 1b8:	b0 e0       	ldi	r27, 0x00	; 0
+ 1ba:	e5 e5       	ldi	r30, 0x55	; 85
+ 1bc:	f0 e0       	ldi	r31, 0x00	; 0
+ 1be:	80 81       	ld	r24, Z
+ 1c0:	81 60       	ori	r24, 0x01	; 1
+ 1c2:	8c 93       	st	X, r24
+ 1c4:	02 c0       	rjmp	.+4      	; 0x1ca <EXTI_u8IntSetSenseControl+0xde>
+			break;
+		default: Local_u8ErrorState=NOK;
+ 1c6:	81 e0       	ldi	r24, 0x01	; 1
+ 1c8:	89 83       	std	Y+1, r24	; 0x01
+		}
+		return Local_u8ErrorState;
+ 1ca:	99 81       	ldd	r25, Y+1	; 0x01
+ 1cc:	9e 83       	std	Y+6, r25	; 0x06
+ 1ce:	69 c0       	rjmp	.+210    	; 0x2a2 <EXTI_u8IntSetSenseControl+0x1b6>
+	}
+	else if(Copy_u8Int==INT1)
+ 1d0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1d2:	82 30       	cpi	r24, 0x02	; 2
+ 1d4:	09 f0       	breq	.+2      	; 0x1d8 <EXTI_u8IntSetSenseControl+0xec>
+ 1d6:	61 c0       	rjmp	.+194    	; 0x29a <EXTI_u8IntSetSenseControl+0x1ae>
+	{
+		switch(Copy_u8Sense)
+ 1d8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1da:	28 2f       	mov	r18, r24
+ 1dc:	30 e0       	ldi	r19, 0x00	; 0
+ 1de:	3d 83       	std	Y+5, r19	; 0x05
+ 1e0:	2c 83       	std	Y+4, r18	; 0x04
+ 1e2:	8c 81       	ldd	r24, Y+4	; 0x04
+ 1e4:	9d 81       	ldd	r25, Y+5	; 0x05
+ 1e6:	82 30       	cpi	r24, 0x02	; 2
+ 1e8:	91 05       	cpc	r25, r1
+ 1ea:	29 f1       	breq	.+74     	; 0x236 <EXTI_u8IntSetSenseControl+0x14a>
+ 1ec:	2c 81       	ldd	r18, Y+4	; 0x04
+ 1ee:	3d 81       	ldd	r19, Y+5	; 0x05
+ 1f0:	23 30       	cpi	r18, 0x03	; 3
+ 1f2:	31 05       	cpc	r19, r1
+ 1f4:	34 f4       	brge	.+12     	; 0x202 <EXTI_u8IntSetSenseControl+0x116>
+ 1f6:	8c 81       	ldd	r24, Y+4	; 0x04
+ 1f8:	9d 81       	ldd	r25, Y+5	; 0x05
+ 1fa:	81 30       	cpi	r24, 0x01	; 1
+ 1fc:	91 05       	cpc	r25, r1
+ 1fe:	61 f0       	breq	.+24     	; 0x218 <EXTI_u8IntSetSenseControl+0x12c>
+ 200:	47 c0       	rjmp	.+142    	; 0x290 <EXTI_u8IntSetSenseControl+0x1a4>
+ 202:	2c 81       	ldd	r18, Y+4	; 0x04
+ 204:	3d 81       	ldd	r19, Y+5	; 0x05
+ 206:	23 30       	cpi	r18, 0x03	; 3
+ 208:	31 05       	cpc	r19, r1
+ 20a:	21 f1       	breq	.+72     	; 0x254 <EXTI_u8IntSetSenseControl+0x168>
+ 20c:	8c 81       	ldd	r24, Y+4	; 0x04
+ 20e:	9d 81       	ldd	r25, Y+5	; 0x05
+ 210:	84 30       	cpi	r24, 0x04	; 4
+ 212:	91 05       	cpc	r25, r1
+ 214:	71 f1       	breq	.+92     	; 0x272 <EXTI_u8IntSetSenseControl+0x186>
+ 216:	3c c0       	rjmp	.+120    	; 0x290 <EXTI_u8IntSetSenseControl+0x1a4>
+		{
+		case Low_LEVEL:
+			CLR_BIT(MCUCR,MCUCR_ISC11);
+ 218:	a5 e5       	ldi	r26, 0x55	; 85
+ 21a:	b0 e0       	ldi	r27, 0x00	; 0
+ 21c:	e5 e5       	ldi	r30, 0x55	; 85
+ 21e:	f0 e0       	ldi	r31, 0x00	; 0
+ 220:	80 81       	ld	r24, Z
+ 222:	87 7f       	andi	r24, 0xF7	; 247
+ 224:	8c 93       	st	X, r24
+			CLR_BIT(MCUCR,MCUCR_ISC10);
+ 226:	a5 e5       	ldi	r26, 0x55	; 85
+ 228:	b0 e0       	ldi	r27, 0x00	; 0
+ 22a:	e5 e5       	ldi	r30, 0x55	; 85
+ 22c:	f0 e0       	ldi	r31, 0x00	; 0
+ 22e:	80 81       	ld	r24, Z
+ 230:	8b 7f       	andi	r24, 0xFB	; 251
+ 232:	8c 93       	st	X, r24
+ 234:	2f c0       	rjmp	.+94     	; 0x294 <EXTI_u8IntSetSenseControl+0x1a8>
+			break;
+		case ON_CHANGE:
+			CLR_BIT(MCUCR,MCUCR_ISC11);
+ 236:	a5 e5       	ldi	r26, 0x55	; 85
+ 238:	b0 e0       	ldi	r27, 0x00	; 0
+ 23a:	e5 e5       	ldi	r30, 0x55	; 85
+ 23c:	f0 e0       	ldi	r31, 0x00	; 0
+ 23e:	80 81       	ld	r24, Z
+ 240:	87 7f       	andi	r24, 0xF7	; 247
+ 242:	8c 93       	st	X, r24
+			SET_BIT(MCUCR,MCUCR_ISC10);
+ 244:	a5 e5       	ldi	r26, 0x55	; 85
+ 246:	b0 e0       	ldi	r27, 0x00	; 0
+ 248:	e5 e5       	ldi	r30, 0x55	; 85
+ 24a:	f0 e0       	ldi	r31, 0x00	; 0
+ 24c:	80 81       	ld	r24, Z
+ 24e:	84 60       	ori	r24, 0x04	; 4
+ 250:	8c 93       	st	X, r24
+ 252:	20 c0       	rjmp	.+64     	; 0x294 <EXTI_u8IntSetSenseControl+0x1a8>
+			break;
+		case FALLING_EDGE:
+			SET_BIT(MCUCR,MCUCR_ISC11);
+ 254:	a5 e5       	ldi	r26, 0x55	; 85
+ 256:	b0 e0       	ldi	r27, 0x00	; 0
+ 258:	e5 e5       	ldi	r30, 0x55	; 85
+ 25a:	f0 e0       	ldi	r31, 0x00	; 0
+ 25c:	80 81       	ld	r24, Z
+ 25e:	88 60       	ori	r24, 0x08	; 8
+ 260:	8c 93       	st	X, r24
+			CLR_BIT(MCUCR,MCUCR_ISC10);
+ 262:	a5 e5       	ldi	r26, 0x55	; 85
+ 264:	b0 e0       	ldi	r27, 0x00	; 0
+ 266:	e5 e5       	ldi	r30, 0x55	; 85
+ 268:	f0 e0       	ldi	r31, 0x00	; 0
+ 26a:	80 81       	ld	r24, Z
+ 26c:	8b 7f       	andi	r24, 0xFB	; 251
+ 26e:	8c 93       	st	X, r24
+ 270:	11 c0       	rjmp	.+34     	; 0x294 <EXTI_u8IntSetSenseControl+0x1a8>
+			break;
+		case RISING_EDGE:
+			SET_BIT(MCUCR,MCUCR_ISC11);
+ 272:	a5 e5       	ldi	r26, 0x55	; 85
+ 274:	b0 e0       	ldi	r27, 0x00	; 0
+ 276:	e5 e5       	ldi	r30, 0x55	; 85
+ 278:	f0 e0       	ldi	r31, 0x00	; 0
+ 27a:	80 81       	ld	r24, Z
+ 27c:	88 60       	ori	r24, 0x08	; 8
+ 27e:	8c 93       	st	X, r24
+			SET_BIT(MCUCR,MCUCR_ISC10);
+ 280:	a5 e5       	ldi	r26, 0x55	; 85
+ 282:	b0 e0       	ldi	r27, 0x00	; 0
+ 284:	e5 e5       	ldi	r30, 0x55	; 85
+ 286:	f0 e0       	ldi	r31, 0x00	; 0
+ 288:	80 81       	ld	r24, Z
+ 28a:	84 60       	ori	r24, 0x04	; 4
+ 28c:	8c 93       	st	X, r24
+ 28e:	02 c0       	rjmp	.+4      	; 0x294 <EXTI_u8IntSetSenseControl+0x1a8>
+			break;
+		default: Local_u8ErrorState=NOK;
+ 290:	81 e0       	ldi	r24, 0x01	; 1
+ 292:	89 83       	std	Y+1, r24	; 0x01
+		}
+		return Local_u8ErrorState;
+ 294:	99 81       	ldd	r25, Y+1	; 0x01
+ 296:	9e 83       	std	Y+6, r25	; 0x06
+ 298:	04 c0       	rjmp	.+8      	; 0x2a2 <EXTI_u8IntSetSenseControl+0x1b6>
+	}
+	else
+	{
+		Local_u8ErrorState=NOK;
+ 29a:	81 e0       	ldi	r24, 0x01	; 1
+ 29c:	89 83       	std	Y+1, r24	; 0x01
+	}
+
+	return Local_u8ErrorState;
+ 29e:	29 81       	ldd	r18, Y+1	; 0x01
+ 2a0:	2e 83       	std	Y+6, r18	; 0x06
+ 2a2:	8e 81       	ldd	r24, Y+6	; 0x06
+}
+ 2a4:	28 96       	adiw	r28, 0x08	; 8
+ 2a6:	0f b6       	in	r0, 0x3f	; 63
+ 2a8:	f8 94       	cli
+ 2aa:	de bf       	out	0x3e, r29	; 62
+ 2ac:	0f be       	out	0x3f, r0	; 63
+ 2ae:	cd bf       	out	0x3d, r28	; 61
+ 2b0:	cf 91       	pop	r28
+ 2b2:	df 91       	pop	r29
+ 2b4:	08 95       	ret
+
+000002b6 <EXTI_u8IntEnableControl>:
+
+u8 EXTI_u8IntEnableControl(u8 Copy_u8Int,u8 Copy_u8IntControl)
+{
+ 2b6:	df 93       	push	r29
+ 2b8:	cf 93       	push	r28
+ 2ba:	00 d0       	rcall	.+0      	; 0x2bc <EXTI_u8IntEnableControl+0x6>
+ 2bc:	0f 92       	push	r0
+ 2be:	cd b7       	in	r28, 0x3d	; 61
+ 2c0:	de b7       	in	r29, 0x3e	; 62
+ 2c2:	8a 83       	std	Y+2, r24	; 0x02
+ 2c4:	6b 83       	std	Y+3, r22	; 0x03
+	u8 Local_u8ErrorState =OK;
+ 2c6:	19 82       	std	Y+1, r1	; 0x01
+
+	if(Copy_u8Int==INT0)
+ 2c8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 2ca:	81 30       	cpi	r24, 0x01	; 1
+ 2cc:	c9 f4       	brne	.+50     	; 0x300 <EXTI_u8IntEnableControl+0x4a>
+	{
+		if(Copy_u8IntControl==ENABLED)
+ 2ce:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2d0:	81 30       	cpi	r24, 0x01	; 1
+ 2d2:	41 f4       	brne	.+16     	; 0x2e4 <EXTI_u8IntEnableControl+0x2e>
+		{
+			SET_BIT(GICR,GICR_INT0);
+ 2d4:	ab e5       	ldi	r26, 0x5B	; 91
+ 2d6:	b0 e0       	ldi	r27, 0x00	; 0
+ 2d8:	eb e5       	ldi	r30, 0x5B	; 91
+ 2da:	f0 e0       	ldi	r31, 0x00	; 0
+ 2dc:	80 81       	ld	r24, Z
+ 2de:	80 64       	ori	r24, 0x40	; 64
+ 2e0:	8c 93       	st	X, r24
+ 2e2:	2c c0       	rjmp	.+88     	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+		else if(Copy_u8IntControl==DISABLED)
+ 2e4:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2e6:	82 30       	cpi	r24, 0x02	; 2
+ 2e8:	41 f4       	brne	.+16     	; 0x2fa <EXTI_u8IntEnableControl+0x44>
+		{
+			CLR_BIT(GICR,GICR_INT0);
+ 2ea:	ab e5       	ldi	r26, 0x5B	; 91
+ 2ec:	b0 e0       	ldi	r27, 0x00	; 0
+ 2ee:	eb e5       	ldi	r30, 0x5B	; 91
+ 2f0:	f0 e0       	ldi	r31, 0x00	; 0
+ 2f2:	80 81       	ld	r24, Z
+ 2f4:	8f 7b       	andi	r24, 0xBF	; 191
+ 2f6:	8c 93       	st	X, r24
+ 2f8:	21 c0       	rjmp	.+66     	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+		else
+		{
+			Local_u8ErrorState=NOK;
+ 2fa:	81 e0       	ldi	r24, 0x01	; 1
+ 2fc:	89 83       	std	Y+1, r24	; 0x01
+ 2fe:	1e c0       	rjmp	.+60     	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+
+	}
+	else if(Copy_u8Int==INT1)
+ 300:	8a 81       	ldd	r24, Y+2	; 0x02
+ 302:	82 30       	cpi	r24, 0x02	; 2
+ 304:	c9 f4       	brne	.+50     	; 0x338 <EXTI_u8IntEnableControl+0x82>
+	{
+		if(Copy_u8IntControl==ENABLED)
+ 306:	8b 81       	ldd	r24, Y+3	; 0x03
+ 308:	81 30       	cpi	r24, 0x01	; 1
+ 30a:	41 f4       	brne	.+16     	; 0x31c <EXTI_u8IntEnableControl+0x66>
+		{
+			SET_BIT(GICR,GICR_INT1);
+ 30c:	ab e5       	ldi	r26, 0x5B	; 91
+ 30e:	b0 e0       	ldi	r27, 0x00	; 0
+ 310:	eb e5       	ldi	r30, 0x5B	; 91
+ 312:	f0 e0       	ldi	r31, 0x00	; 0
+ 314:	80 81       	ld	r24, Z
+ 316:	80 68       	ori	r24, 0x80	; 128
+ 318:	8c 93       	st	X, r24
+ 31a:	10 c0       	rjmp	.+32     	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+		else if(Copy_u8IntControl==DISABLED)
+ 31c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 31e:	82 30       	cpi	r24, 0x02	; 2
+ 320:	41 f4       	brne	.+16     	; 0x332 <EXTI_u8IntEnableControl+0x7c>
+		{
+			CLR_BIT(GICR,GICR_INT1);
+ 322:	ab e5       	ldi	r26, 0x5B	; 91
+ 324:	b0 e0       	ldi	r27, 0x00	; 0
+ 326:	eb e5       	ldi	r30, 0x5B	; 91
+ 328:	f0 e0       	ldi	r31, 0x00	; 0
+ 32a:	80 81       	ld	r24, Z
+ 32c:	8f 77       	andi	r24, 0x7F	; 127
+ 32e:	8c 93       	st	X, r24
+ 330:	05 c0       	rjmp	.+10     	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+		else
+		{
+			Local_u8ErrorState=NOK;
+ 332:	81 e0       	ldi	r24, 0x01	; 1
+ 334:	89 83       	std	Y+1, r24	; 0x01
+ 336:	02 c0       	rjmp	.+4      	; 0x33c <EXTI_u8IntEnableControl+0x86>
+		}
+	}
+	else
+	{
+		Local_u8ErrorState=NOK;
+ 338:	81 e0       	ldi	r24, 0x01	; 1
+ 33a:	89 83       	std	Y+1, r24	; 0x01
+	}
+
+	return Local_u8ErrorState;
+ 33c:	89 81       	ldd	r24, Y+1	; 0x01
+
+}
+ 33e:	0f 90       	pop	r0
+ 340:	0f 90       	pop	r0
+ 342:	0f 90       	pop	r0
+ 344:	cf 91       	pop	r28
+ 346:	df 91       	pop	r29
+ 348:	08 95       	ret
+
+0000034a <EXTI_u8Int0SetCallBack>:
+
+u8 EXTI_u8Int0SetCallBack(void(*Copy_pvInt0Func) (void))
+{
+ 34a:	df 93       	push	r29
+ 34c:	cf 93       	push	r28
+ 34e:	00 d0       	rcall	.+0      	; 0x350 <EXTI_u8Int0SetCallBack+0x6>
+ 350:	0f 92       	push	r0
+ 352:	cd b7       	in	r28, 0x3d	; 61
+ 354:	de b7       	in	r29, 0x3e	; 62
+ 356:	9b 83       	std	Y+3, r25	; 0x03
+ 358:	8a 83       	std	Y+2, r24	; 0x02
+	u8 Local_u8ErrorState=OK;
+ 35a:	19 82       	std	Y+1, r1	; 0x01
+	if(Copy_pvInt0Func!=NULL)
+ 35c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 35e:	9b 81       	ldd	r25, Y+3	; 0x03
+ 360:	00 97       	sbiw	r24, 0x00	; 0
+ 362:	39 f0       	breq	.+14     	; 0x372 <EXTI_u8Int0SetCallBack+0x28>
+	{
+		EXTI_pvInt0Func=Copy_pvInt0Func;
+ 364:	8a 81       	ldd	r24, Y+2	; 0x02
+ 366:	9b 81       	ldd	r25, Y+3	; 0x03
+ 368:	90 93 61 00 	sts	0x0061, r25
+ 36c:	80 93 60 00 	sts	0x0060, r24
+ 370:	02 c0       	rjmp	.+4      	; 0x376 <EXTI_u8Int0SetCallBack+0x2c>
+	}
+	else
+	{
+		Local_u8ErrorState=NULL_POINTER;
+ 372:	82 e0       	ldi	r24, 0x02	; 2
+ 374:	89 83       	std	Y+1, r24	; 0x01
+	}
+	return Local_u8ErrorState;
+ 376:	89 81       	ldd	r24, Y+1	; 0x01
+}
+ 378:	0f 90       	pop	r0
+ 37a:	0f 90       	pop	r0
+ 37c:	0f 90       	pop	r0
+ 37e:	cf 91       	pop	r28
+ 380:	df 91       	pop	r29
+ 382:	08 95       	ret
+
+00000384 <EXTI_u8Int1SetCallBack>:
+u8 EXTI_u8Int1SetCallBack(void(*Copy_pvInt1Func) (void))
+{
+ 384:	df 93       	push	r29
+ 386:	cf 93       	push	r28
+ 388:	00 d0       	rcall	.+0      	; 0x38a <EXTI_u8Int1SetCallBack+0x6>
+ 38a:	0f 92       	push	r0
+ 38c:	cd b7       	in	r28, 0x3d	; 61
+ 38e:	de b7       	in	r29, 0x3e	; 62
+ 390:	9b 83       	std	Y+3, r25	; 0x03
+ 392:	8a 83       	std	Y+2, r24	; 0x02
+	u8 Local_u8ErrorState=OK;
+ 394:	19 82       	std	Y+1, r1	; 0x01
+	if(Copy_pvInt1Func!=NULL)
+ 396:	8a 81       	ldd	r24, Y+2	; 0x02
+ 398:	9b 81       	ldd	r25, Y+3	; 0x03
+ 39a:	00 97       	sbiw	r24, 0x00	; 0
+ 39c:	39 f0       	breq	.+14     	; 0x3ac <EXTI_u8Int1SetCallBack+0x28>
+	{
+		EXTI_pvInt1Func=Copy_pvInt1Func;
+ 39e:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3a0:	9b 81       	ldd	r25, Y+3	; 0x03
+ 3a2:	90 93 63 00 	sts	0x0063, r25
+ 3a6:	80 93 62 00 	sts	0x0062, r24
+ 3aa:	02 c0       	rjmp	.+4      	; 0x3b0 <EXTI_u8Int1SetCallBack+0x2c>
+	}
+	else
+	{
+		Local_u8ErrorState=NULL_POINTER;
+ 3ac:	82 e0       	ldi	r24, 0x02	; 2
+ 3ae:	89 83       	std	Y+1, r24	; 0x01
+	}
+	return Local_u8ErrorState;
+ 3b0:	89 81       	ldd	r24, Y+1	; 0x01
+}
+ 3b2:	0f 90       	pop	r0
+ 3b4:	0f 90       	pop	r0
+ 3b6:	0f 90       	pop	r0
+ 3b8:	cf 91       	pop	r28
+ 3ba:	df 91       	pop	r29
+ 3bc:	08 95       	ret
+
+000003be <__vector_1>:
+/*ISR of INT0*/
+void __vector_1(void) __attribute__ ((signal));
+void __vector_1(void)
+{
+ 3be:	1f 92       	push	r1
+ 3c0:	0f 92       	push	r0
+ 3c2:	0f b6       	in	r0, 0x3f	; 63
+ 3c4:	0f 92       	push	r0
+ 3c6:	11 24       	eor	r1, r1
+ 3c8:	2f 93       	push	r18
+ 3ca:	3f 93       	push	r19
+ 3cc:	4f 93       	push	r20
+ 3ce:	5f 93       	push	r21
+ 3d0:	6f 93       	push	r22
+ 3d2:	7f 93       	push	r23
+ 3d4:	8f 93       	push	r24
+ 3d6:	9f 93       	push	r25
+ 3d8:	af 93       	push	r26
+ 3da:	bf 93       	push	r27
+ 3dc:	ef 93       	push	r30
+ 3de:	ff 93       	push	r31
+ 3e0:	df 93       	push	r29
+ 3e2:	cf 93       	push	r28
+ 3e4:	cd b7       	in	r28, 0x3d	; 61
+ 3e6:	de b7       	in	r29, 0x3e	; 62
+	if(EXTI_pvInt0Func!=NULL)
+ 3e8:	80 91 60 00 	lds	r24, 0x0060
+ 3ec:	90 91 61 00 	lds	r25, 0x0061
+ 3f0:	00 97       	sbiw	r24, 0x00	; 0
+ 3f2:	29 f0       	breq	.+10     	; 0x3fe <__vector_1+0x40>
+	{
+		EXTI_pvInt0Func();
+ 3f4:	e0 91 60 00 	lds	r30, 0x0060
+ 3f8:	f0 91 61 00 	lds	r31, 0x0061
+ 3fc:	09 95       	icall
+	}
+	else
+	{
+		//Do nothing
+	}
+}
+ 3fe:	cf 91       	pop	r28
+ 400:	df 91       	pop	r29
+ 402:	ff 91       	pop	r31
+ 404:	ef 91       	pop	r30
+ 406:	bf 91       	pop	r27
+ 408:	af 91       	pop	r26
+ 40a:	9f 91       	pop	r25
+ 40c:	8f 91       	pop	r24
+ 40e:	7f 91       	pop	r23
+ 410:	6f 91       	pop	r22
+ 412:	5f 91       	pop	r21
+ 414:	4f 91       	pop	r20
+ 416:	3f 91       	pop	r19
+ 418:	2f 91       	pop	r18
+ 41a:	0f 90       	pop	r0
+ 41c:	0f be       	out	0x3f, r0	; 63
+ 41e:	0f 90       	pop	r0
+ 420:	1f 90       	pop	r1
+ 422:	18 95       	reti
+
+00000424 <__vector_2>:
+/*ISR of INT1*/
+void __vector_2(void) __attribute__ ((signal));
+void __vector_2(void)
+{
+ 424:	1f 92       	push	r1
+ 426:	0f 92       	push	r0
+ 428:	0f b6       	in	r0, 0x3f	; 63
+ 42a:	0f 92       	push	r0
+ 42c:	11 24       	eor	r1, r1
+ 42e:	2f 93       	push	r18
+ 430:	3f 93       	push	r19
+ 432:	4f 93       	push	r20
+ 434:	5f 93       	push	r21
+ 436:	6f 93       	push	r22
+ 438:	7f 93       	push	r23
+ 43a:	8f 93       	push	r24
+ 43c:	9f 93       	push	r25
+ 43e:	af 93       	push	r26
+ 440:	bf 93       	push	r27
+ 442:	ef 93       	push	r30
+ 444:	ff 93       	push	r31
+ 446:	df 93       	push	r29
+ 448:	cf 93       	push	r28
+ 44a:	cd b7       	in	r28, 0x3d	; 61
+ 44c:	de b7       	in	r29, 0x3e	; 62
+	if(EXTI_pvInt1Func!=NULL)
+ 44e:	80 91 62 00 	lds	r24, 0x0062
+ 452:	90 91 63 00 	lds	r25, 0x0063
+ 456:	00 97       	sbiw	r24, 0x00	; 0
+ 458:	29 f0       	breq	.+10     	; 0x464 <__stack+0x5>
+	{
+		EXTI_pvInt1Func();
+ 45a:	e0 91 62 00 	lds	r30, 0x0062
+ 45e:	f0 91 63 00 	lds	r31, 0x0063
+ 462:	09 95       	icall
+	}
+	else
+	{
+		//Do nothing
+	}
+}
+ 464:	cf 91       	pop	r28
+ 466:	df 91       	pop	r29
+ 468:	ff 91       	pop	r31
+ 46a:	ef 91       	pop	r30
+ 46c:	bf 91       	pop	r27
+ 46e:	af 91       	pop	r26
+ 470:	9f 91       	pop	r25
+ 472:	8f 91       	pop	r24
+ 474:	7f 91       	pop	r23
+ 476:	6f 91       	pop	r22
+ 478:	5f 91       	pop	r21
+ 47a:	4f 91       	pop	r20
+ 47c:	3f 91       	pop	r19
+ 47e:	2f 91       	pop	r18
+ 480:	0f 90       	pop	r0
+ 482:	0f be       	out	0x3f, r0	; 63
+ 484:	0f 90       	pop	r0
+ 486:	1f 90       	pop	r1
+ 488:	18 95       	reti
+
+0000048a <main>:
+void main(void){
+ 48a:	df 93       	push	r29
+ 48c:	cf 93       	push	r28
+ 48e:	cd b7       	in	r28, 0x3d	; 61
+ 490:	de b7       	in	r29, 0x3e	; 62
+ 492:	ff cf       	rjmp	.-2      	; 0x492 <main+0x8>
+
+00000494 <_exit>:
+ 494:	f8 94       	cli
+
+00000496 <__stop_program>:
+ 496:	ff cf       	rjmp	.-2      	; 0x496 <__stop_program>
